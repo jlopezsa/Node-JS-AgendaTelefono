@@ -1,0 +1,23 @@
+{
+  "name": "node-js-agendatelefono",
+  "version": "1.0.0",
+  "description": "backend-agenda-telefono",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlopezsa/Node-JS-AgendaTelefono.git"
+  },
+  "author": "Julian Lopez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jlopezsa/Node-JS-AgendaTelefono/issues"
+  },
+  "homepage": "https://github.com/jlopezsa/Node-JS-AgendaTelefono#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
