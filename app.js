@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+app.use(express.json()) // Importante para poder usar el req.body
 
 const persons = [
     {
@@ -53,12 +54,19 @@ app.delete('/api/persons/:id', (req, res) => {
     const personsVec = persons.filter(person => person.id != id)
     //res.send(`User with the id ${id} deleted.`)
     res.json(personsVec)
-  })
+})
 
-app.post('/api/persons/:name&:number',(req,res)=>{
-    const newId = Math.floor(Math.random()*10000);
-    const newName = req.params.name;
-    const newNumber = req.params.number;
+app.post('/api/persons', (req, res) => {
+    const newId = Math.floor(Math.random() * 10000);
+    console.log(req.body)
+    const person = {
+        id: newId,
+        ...req.body
+        };
+    persons.push(person);
+    res.json(persons);
+});
+    /*
     console.log(newName)
     console.log(newNumber)
     if(!newName && !newNumber){
@@ -72,16 +80,15 @@ app.post('/api/persons/:name&:number',(req,res)=>{
         });
         console.log(`Chaoooo`)
         res.json(persons)
-    }
-})
+    }*/
 
-
+/*
 app.use(function(err, req, res, next) {
     // logic
     console.log(`Errores`)
     res.status(404).json({ error: `Persons not found with id` });
   });
-  
+  */
 
 
 
