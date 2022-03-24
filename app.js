@@ -49,6 +49,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 })
 
+
 app.delete('/api/persons/:id', (req, res) => {
     const id = req.params.id;
     const personsVec = persons.filter(person => person.id != id)
@@ -56,40 +57,39 @@ app.delete('/api/persons/:id', (req, res) => {
     res.json(personsVec)
 })
 
+// POST API/PERSONS
 app.post('/api/persons', (req, res) => {
     const newId = Math.floor(Math.random() * 10000);
     console.log(req.body)
     const person = {
         id: newId,
         ...req.body
-        };
-    persons.push(person);
-    res.json(persons);
-});
-    /*
-    console.log(newName)
-    console.log(newNumber)
-    if(!newName && !newNumber){
-        res.status(404).json({ error: `Persons not found with id` });
-        console.log(`Holaaaa`)
+    };
+
+    if(!person.name || !person.number){
+        /*  400 Bad Request
+            Esta respuesta significa que el servidor no pudo interpretar la solicitud dada una sintaxis inválida.
+         */
+        res.status(400).json({ error: `name and number values are required` });
     }else{
-        persons.push({
-            id: newId,
-            name: newName,
-            number: newNumber
-        });
-        console.log(`Chaoooo`)
-        res.json(persons)
-    }*/
+        console.log(persons[1].name)
+        console.log(person.name)
+        
+        persons.map((item)=>{
 
-/*
-app.use(function(err, req, res, next) {
-    // logic
-    console.log(`Errores`)
-    res.status(404).json({ error: `Persons not found with id` });
-  });
-  */
+        })
+        const repetPerson = persons.find((item)=>item.name===person.name);
+        if(!repetPerson){
+            persons.push(person);
+            res.json(persons);
+        }else{
+            res.status(400).json({ error: `name must be unique` });
+        }
+        
+        //if(person.name===)
 
+    }
+});
 
 
 const port = process.env.PORT || 3001;
