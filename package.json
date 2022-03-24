@@ -19,5 +19,8 @@
   "homepage": "https://github.com/jlopezsa/Node-JS-AgendaTelefono#readme",
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
   }
 }
