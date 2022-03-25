@@ -1,13 +1,14 @@
 const express = require('express');
-
-const app = express();
 const morgan = require('morgan');
 
+const app = express();
 app.use(express.json()) // Intercepta la aplicación: importante para poder usar el req.body
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms')) // Usando morgan para interceptar la aplicación.
 
-// create "middleware"
-var logger = morgan('dev');
+morgan.token('body',function(req,res){
+    return JSON.stringify(req.body);
+})
+
+app.use(morgan(':method :url :status - :response-time ms :body')) // Usando morgan para interceptar la aplicación.
 
 const persons = [
     {
@@ -87,7 +88,6 @@ app.post('/api/persons', (req, res) => {
         if(!repetPerson){
             persons.push(person);
             res.status(201).json({messaee: `contact data is added`})
-            res.json(persons);
         }else{
             res.status(400).json({error: `name must be unique` });
         }
