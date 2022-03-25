@@ -1,7 +1,13 @@
 const express = require('express');
 
 const app = express();
-app.use(express.json()) // Importante para poder usar el req.body
+const morgan = require('morgan');
+
+app.use(express.json()) // Intercepta la aplicación: importante para poder usar el req.body
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms')) // Usando morgan para interceptar la aplicación.
+
+// create "middleware"
+var logger = morgan('dev');
 
 const persons = [
     {
@@ -53,43 +59,42 @@ app.get('/api/persons/:id', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
     const id = req.params.id;
     const personsVec = persons.filter(person => person.id != id)
-    //res.send(`User with the id ${id} deleted.`)
-    res.json(personsVec)
+    const person = persons.find((item)=>{
+        return person.id === Number(id);
+    })
+    if(!person){
+        res.status(404).json({message: `not found`})
+    }else{
+        res.json(person);
+    }
 })
 
 // POST API/PERSONS
 app.post('/api/persons', (req, res) => {
     const newId = Math.floor(Math.random() * 10000);
-    console.log(req.body)
     const person = {
         id: newId,
         ...req.body
     };
-
+    JSON.stringify({...req.body})   
     if(!person.name || !person.number){
         /*  400 Bad Request
             Esta respuesta significa que el servidor no pudo interpretar la solicitud dada una sintaxis inválida.
          */
         res.status(400).json({ error: `name and number values are required` });
     }else{
-        console.log(persons[1].name)
-        console.log(person.name)
-        
-        persons.map((item)=>{
-
-        })
         const repetPerson = persons.find((item)=>item.name===person.name);
         if(!repetPerson){
             persons.push(person);
+            res.status(201).json({messaee: `contact data is added`})
             res.json(persons);
         }else{
-            res.status(400).json({ error: `name must be unique` });
+            res.status(400).json({error: `name must be unique` });
         }
-        
-        //if(person.name===)
-
     }
 });
+
+
 
 
 const port = process.env.PORT || 3001;
