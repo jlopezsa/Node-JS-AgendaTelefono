@@ -58,14 +58,10 @@ app.get('/api/persons/:id', (req, res) => {
 // DELET
 app.delete('/api/persons/:id', (req, res) => {
     const id = req.params.id;
-    const idx = persons.findIndex((item)=>{
-        return item.id === Number(id);
-    })
-    console.log(idx)
-    if(idx === -1){
+    const personDeleted = persons.filter( n => n.id === Number(id));
+    if(!personDeleted){
         res.status(404).json({message: `not found`})
     }else{
-        persons.splice(idx,1);
         res.status(200).json({ message: `Person with id: ${id} was deleted` });
     }
 })
